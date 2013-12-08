@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <title>Progress Bar: Categorical-Processing Sample (Javascript)</title>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width">
+        
+        <meta name="keywords" content="Progress, Bar, Javascript, UI, Library, Widgets, Plugins, Component, jQuery, Multi, Sparklines">
+        <meta name="description" content="(Javascript) Multiple progress bar control and tiny chart (sparkline) Features; initial-mode, multi-processing, categorical-processing, limit-lines">
+        <meta name="author" content="Bugra OZDEN">
+        
+        <link rel="stylesheet" href="css/lib/control/progressbar.css" />
+        <script type="text/javascript" src="lib/control/progressbar.min.js"></script>
+
+        <style type="text/css">
+
+            #my-progressbar-container {
+                
+                position: relative;
+                width: 300px; /* my-progressbar width */
+                padding: 20px 5px 20px 5px; /* Space for progresbar-texts */
+                background-color: transparent;
+                
+            }
+            
+            .progressbar-text {
+                
+                position: absolute;
+                font-family: Arial;
+                font-size: 10px;
+                color: #333333;
+                
+            }
+            
+            .progressbar-text.top-right {
+                
+                top:5px;
+                right:7px;
+                
+            }
+            
+            .progressbar-text.top-left {
+                
+                top:5px;
+                left:7px;
+                
+            }
+            
+            .progressbar-text.bottom-right {
+                
+                bottom:5px;
+                right:7px;
+                
+            }
+            
+            .progressbar-text.bottom-left {
+                
+                bottom:5px;
+                left:7px;
+                
+            }
+
+        </style>
+    
+        <script type="text/javascript">
+
+            var progressBar; //my component object
+
+            window.onload = function(){
+                
+                //INIT function
+
+                // ### 
+                // Create New ProgressBar 
+                // ###
+
+                progressBar = new ProgressBar("my-progressbar", {'width':'300px', 'height':'6px'});
+                
+                // ### 
+                // Create Success Process 
+                // ###
+                
+                progressBarItem = {};
+                progressBarItem[ProgressBar.OPTION_NAME.ITEM_ID]  = "successProcess";
+                progressBarItem[ProgressBar.OPTION_NAME.COLOR_ID]   = ProgressBar.OPTION_VALUE.COLOR_ID.GREEN;
+                progressBar.createItem( progressBarItem );
+              
+                // ### 
+                // Create Error Process 
+                // ###
+                
+                progressBarItem = {};
+                progressBarItem[ProgressBar.OPTION_NAME.ITEM_ID]  = "errorProcess";
+                progressBarItem[ProgressBar.OPTION_NAME.COLOR_ID]   = ProgressBar.OPTION_VALUE.COLOR_ID.RED;
+                progressBarItem[ProgressBar.OPTION_NAME.ALIGN]   = ProgressBar.OPTION_VALUE.ALIGN.RIGHT;
+                progressBar.createItem( progressBarItem );
+                
+                // ### 
+                // Create No Response Process 
+                // ###
+                
+                progressBarItem = {};
+                progressBarItem[ProgressBar.OPTION_NAME.ITEM_ID]  = "noResponseProcess";
+                progressBarItem[ProgressBar.OPTION_NAME.COLOR_ID]   = ProgressBar.OPTION_VALUE.COLOR_ID.YELLOW;
+                progressBarItem[ProgressBar.OPTION_NAME.ALIGN]   = ProgressBar.OPTION_VALUE.ALIGN.RIGHT;
+                progressBar.createItem( progressBarItem );
+                
+                // Event listener (COMPLETED)
+                progressBar.getElement().addEventListener(ProgressBar.EVENT.COMPLETED, 
+                    function($event){
+
+                        // All process completed        
+                        clearTimeout(window.playMultiProcessingTimer);
+
+                    });
+                    
+                //Event listener: CHANGED
+                progressBar.getElement().addEventListener(ProgressBar.EVENT.CHANGED, 
+                    function($event){
+                        
+                        //Show total percent of error and alerts
+                        var totalWarningPercent = $event.detail.me.getPercent('errorProcess') + $event.detail.me.getPercent('noResponseProcess');
+                       
+                        //Which itemID?
+                        switch($event.detail.itemID){
+                            
+                            //current process completed (white)
+                            case 'successProcess':
+                                
+                                document.getElementById('my-progressbar-text3').innerHTML = '<strong>' + $event.detail.me.getExValue($event.detail.itemID) 
+                                        + '/' + $event.detail.me.getMaxValue() + '</strong> Success Uploaded';
+
+                                break;
+                                
+                            //All completed (blue)
+                            case 'errorProcess':
+                                
+                                document.getElementById('my-progressbar-text4').innerHTML = $event.detail.me.getExValue('errorProcess') + ' Error (' + totalWarningPercent + '%)';
+                                
+                                break;
+                                
+                            //All completed (blue)
+                            case 'noResponseProcess':
+                                
+                                document.getElementById('my-progressbar-text4').innerHTML = $event.detail.me.getExValue('noResponseProcess') + ' Alert (' + totalWarningPercent + '%)';
+                                
+                                break;
+                            
+                        }
+                        
+                        
+                    });
+                    
+                //Set Total item to process
+                progressBar.setMaxValue(350);
+                //OR You can set maxValue While calling getPercentByValue
+                //progressBar.getPercentByValue(randomValue, itemID, maxValue)
+            
+                                
+                //Play the demo
+                playMultiProcessing();
+                
+
+            }
+            
+            function playMultiProcessing() {
+
+                window.playMultiProcessingTimer = setTimeout(playMultiProcessing, (Math.random()*1000)+100 );
+
+                var randomItem = parseInt((Math.random()*5) + 1);
+                var itemID = "";
+                
+                switch (randomItem){
+                    case 1:
+                    case 2:
+                    case 3:
+                        itemID = "successProcess";
+                        break;
+                     case 4:
+                         itemID = "errorProcess";
+                         break;
+                     case 5:
+                         itemID = "noResponseProcess";
+                         break;
+                }
+
+                var randomValue = progressBar.getExValue(itemID) + parseInt((Math.random()*5) + 1);
+                //Set percent value
+                progressBar.setPercent(progressBar.getPercentByValue(randomValue, itemID), itemID);
+
+            };
+            
+
+        </script>
+        
+    </head>
+    
+    <body>
+        <h2>Progress Bar: Categorical-Processing Sample (Javascript)</h2>
+        
+        <div id="my-progressbar-container">
+            
+            <div id="my-progressbar-text1" class="progressbar-text top-left">Categorical-Processing...</div>
+            <div id="my-progressbar-text2" class="progressbar-text top-right"></div>
+            
+            <div id="my-progressbar"></div>
+            
+            <div id="my-progressbar-text3" class="progressbar-text bottom-left"><strong>33/45</strong> Success Upload</div>
+            <div id="my-progressbar-text4" class="progressbar-text bottom-right">0%</div>
+        
+        </div>
+        
+    </body>
+</html>

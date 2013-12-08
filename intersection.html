@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Progress Bar: Intersection Sample (Javascript)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width">
+        
+        <meta name="keywords" content="Progress, Bar, Javascript, UI, Library, Widgets, Plugins, Component, jQuery, Multi, Sparklines">
+        <meta name="description" content="(Javascript) Multiple progress bar control and tiny chart (sparkline) Features; initial-mode, multi-processing, categorical-processing, limit-lines">
+        <meta name="author" content="Bugra OZDEN">        
+        
+        <link rel="stylesheet" href="css/lib/control/progressbar.css" />
+        <script type="text/javascript" src="lib/control/progressbar.min.js"></script>
+
+        <style type="text/css">
+
+            #my-progressbar-container {
+                
+                position: relative;
+                width: 100px; /* my-progressbar width */
+                padding: 20px 5px 20px 5px; /* Space for progresbar-texts */
+                background-color: transparent;
+                
+            }
+            
+            .progressbar-text {
+                
+                position: absolute;
+                font-family: Arial;
+                font-size: 10px;
+                color: #333333;
+                
+            }
+            
+            .progressbar-text.top-right {
+                
+                top:5px;
+                right:7px;
+                
+            }
+            
+            .progressbar-text.top-left {
+                
+                top:5px;
+                left:7px;
+                
+            }
+            
+            .progressbar-text.bottom-right {
+                
+                bottom:5px;
+                right:7px;
+                
+            }
+            
+            .progressbar-text.bottom-left {
+                
+                bottom:5px;
+                left:7px;
+                
+            }
+
+        </style>
+    
+        <script type="text/javascript">
+
+            var progressBar;
+
+            window.onload = function(){
+                
+                //Create new progress bar
+                progressBar = new ProgressBar("my-progressbar", {'width':'100px', 'height':'4px'});
+                
+                var oName = ProgressBar.OPTION_NAME;
+                var oValue = ProgressBar.OPTION_VALUE;
+                
+                //Create new item
+                barItem = {};
+                barItem[oName.ITEM_ID]    = "item1";
+                barItem[oName.OPACITY]    = 0.5;
+                barItem[oName.ALIGN]      = oValue.ALIGN.RIGHT;
+                barItem[oName.POSITION]   = oValue.POSITION.ABSOLUTE;
+                barItem[oName.COLOR_ID]   = oValue.COLOR_ID.BLUE;
+                progressBar.createItem(barItem);
+                
+                barItem = {};
+                barItem[oName.ITEM_ID]    = "item2";
+                barItem[oName.OPACITY]    = 0.5;
+                barItem[oName.ALIGN]      = oValue.ALIGN.LEFT;
+                barItem[oName.POSITION]   = oValue.POSITION.ABSOLUTE;
+                barItem[oName.COLOR_ID]   = oValue.COLOR_ID.RED;
+                progressBar.createItem(barItem);
+                
+                //Change percent
+                progressBar.setPercent(62, "item1");
+                progressBar.setPercent(78, "item2");
+                
+                //Event listener: CHANGED
+                progressBar.getElement().addEventListener(ProgressBar.EVENT.CHANGED, 
+                    function($event){
+                        
+                        var item1Percent = $event.detail.me.getPercent('item1');
+                        var item2Percent = $event.detail.me.getPercent('item2');
+                        
+                        var intersection = (item1Percent > item2Percent) 
+                            ? item1Percent - (100 - item2Percent) : item2Percent - (100 - item1Percent);
+                        
+                        document.getElementById('my-progressbar-text4').innerHTML = 
+                                intersection + '% ';
+                    });
+
+            }
+
+        </script>
+        
+    </head>
+    
+    <body>
+        
+        <h2>Progress Bar: Intersection Sample (Javascript)</h2>
+        
+        <div id="my-progressbar-container">
+            
+            <div id="my-progressbar-text1" class="progressbar-text top-left">Intersection</div>
+            <div id="my-progressbar-text2" class="progressbar-text top-right"></div>
+            
+            <div id="my-progressbar"></div>
+            
+            <div id="my-progressbar-text3" class="progressbar-text bottom-left"></div>
+            <div id="my-progressbar-text4" class="progressbar-text bottom-right">0%</div>
+            
+        </div>
+        
+    </body>
+</html>

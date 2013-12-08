@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <title>Progress Bar: Basic Sample (Javascript)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width">
+        
+        <meta name="keywords" content="Progress, Bar, Javascript, UI, Library, Widgets, Plugins, Component, jQuery, Multi, Sparklines">
+        <meta name="description" content="(Javascript) Multiple progress bar control and tiny chart (sparkline) Features; initial-mode, multi-processing, categorical-processing, limit-lines">
+        <meta name="author" content="Bugra OZDEN">
+        
+        <link rel="stylesheet" href="css/lib/control/progressbar.css" />
+        <script type="text/javascript" src="lib/control/progressbar.min.js"></script>
+    
+        <script type="text/javascript">
+
+            var progressBar;
+
+            window.onload = function(){
+
+                progressBar = new ProgressBar("my-progressbar", {'width':'100%', 'height':'3px'});
+                progressBar.setPercent(60);
+
+            }
+
+        </script>
+        
+    </head>
+    
+    <body>
+        <h2>Progress Bar: Basic Sample (Javascript)</h2>
+        <div id="my-progressbar"></div>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Progress Bar: Limit-Lines Sample (Javascript)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width">
+        
+        <meta name="keywords" content="Progress, Bar, Javascript, UI, Library, Widgets, Plugins, Component, jQuery, Multi, Sparklines">
+        <meta name="description" content="(Javascript) Multiple progress bar control and tiny chart (sparkline) Features; initial-mode, multi-processing, categorical-processing, limit-lines">
+        <meta name="author" content="Bugra OZDEN">  
+        
+        <link rel="stylesheet" href="css/lib/control/progressbar.css" />
+        <script type="text/javascript" src="lib/control/progressbar.min.js"></script>
+    
+        <script type="text/javascript">
+
+            var progressBar;
+
+            window.onload = function(){
+
+                progressBar = new ProgressBar("my-progressbar", {'width':'200px', 'height':'6px'});
+                
+                progressBarItem = {};
+                progressBarItem[ProgressBar.OPTION_NAME.ITEM_ID] = "item1";
+                progressBarItem[ProgressBar.OPTION_NAME.TYPE] = ProgressBar.OPTION_VALUE.TYPE.BAR;
+                progressBarItem[ProgressBar.OPTION_NAME.OPACITY] = 1.0;
+                progressBarItem[ProgressBar.OPTION_NAME.SPACE] = 0;
+                progressBarItem[ProgressBar.OPTION_NAME.ALIGN] = ProgressBar.OPTION_VALUE.ALIGN.LEFT;
+                progressBarItem[ProgressBar.OPTION_NAME.POSITION] = ProgressBar.OPTION_VALUE.POSITION.RELATIVE;
+                progressBarItem[ProgressBar.OPTION_NAME.COLOR_ID] = ProgressBar.OPTION_VALUE.COLOR_ID.YELLOW;
+                progressBarItem[ProgressBar.OPTION_NAME.PERCENT] = 60;
+                progressBar.createItem(progressBarItem);
+                
+                progressBarItem = {};
+                progressBarItem[ProgressBar.OPTION_NAME.ITEM_ID] = "line1";
+                progressBarItem[ProgressBar.OPTION_NAME.TYPE] = ProgressBar.OPTION_VALUE.TYPE.LINE;
+                progressBarItem[ProgressBar.OPTION_NAME.ALIGN] = ProgressBar.OPTION_VALUE.ALIGN.LEFT;
+                progressBarItem[ProgressBar.OPTION_NAME.COLOR_ID] = ProgressBar.OPTION_VALUE.COLOR_ID.BLUE;
+                progressBarItem[ProgressBar.OPTION_NAME.PERCENT] = 30;
+                progressBar.createItem(progressBarItem);
+                
+                progressBarItem = {};
+                progressBarItem[ProgressBar.OPTION_NAME.ITEM_ID] = "line2";
+                progressBarItem[ProgressBar.OPTION_NAME.TYPE] = ProgressBar.OPTION_VALUE.TYPE.LINE;
+                progressBarItem[ProgressBar.OPTION_NAME.ALIGN] = ProgressBar.OPTION_VALUE.ALIGN.LEFT;
+                progressBarItem[ProgressBar.OPTION_NAME.COLOR_ID] = ProgressBar.OPTION_VALUE.COLOR_ID.RED;
+                progressBarItem[ProgressBar.OPTION_NAME.PERCENT] = 80;
+                progressBar.createItem(progressBarItem); 
+                
+   
+
+            }
+
+        </script>
+        
+    </head>
+    
+    <body>
+        
+        <h2>Progress Bar: Limit-Lines Sample (Javascript)</h2>
+        
+        <div id="my-progressbar"></div>
+
+    </body>
+</html>

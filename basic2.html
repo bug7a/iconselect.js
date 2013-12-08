@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Progress Bar: Basic #2 Sample (Javascript)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width">
+        
+        <meta name="keywords" content="Progress, Bar, Javascript, UI, Library, Widgets, Plugins, Component, jQuery, Multi, Sparklines">
+        <meta name="description" content="(Javascript) Multiple progress bar control and tiny chart (sparkline) Features; initial-mode, multi-processing, categorical-processing, limit-lines">
+        <meta name="author" content="Bugra OZDEN">        
+        
+        <link rel="stylesheet" href="css/lib/control/progressbar.css" />
+        <script type="text/javascript" src="lib/control/progressbar.min.js"></script>
+
+        <style type="text/css">
+
+            #my-progressbar-container {
+                
+                position: relative;
+                width: 100px; /* my-progressbar width */
+                padding: 20px 5px 20px 5px; /* Space for progresbar-texts */
+                background-color: transparent;
+                
+            }
+            
+            .progressbar-text {
+                
+                position: absolute;
+                font-family: Arial;
+                font-size: 10px;
+                color: #333333;
+                
+            }
+            
+            .progressbar-text.top-right {
+                
+                top:5px;
+                right:7px;
+                
+            }
+            
+            .progressbar-text.top-left {
+                
+                top:5px;
+                left:7px;
+                
+            }
+            
+            .progressbar-text.bottom-right {
+                
+                bottom:5px;
+                right:7px;
+                
+            }
+            
+            .progressbar-text.bottom-left {
+                
+                bottom:5px;
+                left:7px;
+                
+            }
+
+        </style>
+    
+        <script type="text/javascript">
+
+            var progressBar;
+
+            window.onload = function(){
+                
+                //Create new progress bar
+                progressBar = new ProgressBar("my-progressbar", {'width':'100px', 'height':'4px'});
+                
+                var oName = ProgressBar.OPTION_NAME;
+                var oValue = ProgressBar.OPTION_VALUE;
+                
+                //Create new item
+                barItem = {};
+                barItem[oName.ITEM_ID]    = "item1";
+                barItem[oName.TYPE]       = oValue.TYPE.BAR;
+                barItem[oName.OPACITY]    = 0.2;
+                barItem[oName.SPACE]      = 0;
+                barItem[oName.ALIGN]      = oValue.ALIGN.RIGHT;
+                barItem[oName.POSITION]   = oValue.POSITION.RELATIVE;
+                barItem[oName.COLOR_ID]   = oValue.COLOR_ID.YELLOW;
+                barItem[oName.PERCENT]    = 0;
+                progressBar.createItem(barItem);
+        
+                //Change percent
+                progressBar.setPercent(60, "item1");
+                
+                //Event listener: CHANGED
+                progressBar.getElement().addEventListener(ProgressBar.EVENT.CHANGED, 
+                    function($event){
+                        document.getElementById('my-progressbar-text4').innerHTML = $event.detail.me.getPercent() + '%';
+                    });
+                    
+               //Change percent after event listener
+               progressBar.setPercent(80, "item1");
+               
+                //Change other options
+                //progressBar.setOptionValue(oName.OPACITY, 1.0, "item1");
+                //progressBar.setOptionValue(oName.SPACE, 20, "item1");
+                //progressBar.setOptionValue(oName.ALIGN, oValue.ALIGN.LEFT, "item1");
+                //progressBar.setOptionValue(oName.POSITION, oValue.POSITION.ABSOLUTE, "item1");
+                //progressBar.setOptionValue(oName.COLOR_ID, oValue.COLOR_ID.RED, "item1");
+                //progressBar.setPercent(60, "item1");
+
+            }
+
+        </script>
+        
+    </head>
+    
+    <body>
+        
+        <h2>Progress Bar: Basic #2 Sample (Javascript)</h2>
+        
+        <div id="my-progressbar-container">
+            
+            <div id="my-progressbar-text1" class="progressbar-text top-left">Loading...</div>
+            <div id="my-progressbar-text2" class="progressbar-text top-right"></div>
+            
+            <div id="my-progressbar"></div>
+            
+            <div id="my-progressbar-text3" class="progressbar-text bottom-left"></div>
+            <div id="my-progressbar-text4" class="progressbar-text bottom-right">0%</div>
+            
+        </div>
+        
+    </body>
+</html>
